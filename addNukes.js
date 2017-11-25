@@ -56,7 +56,7 @@ app.get('/addtarget', (req, res) => {
 
 	res.writeHead(200, {'Content-type': 'text/html'});
 	var txt = q.target + ' ' + q.date + ' ' + q.nukes; 
-	res.write('New target added! <br><br> <table cellpadding="4" border="1" style="border-collapse: collapse; border: 1px solid black"><tr><td>Target:<td>' + q.target +'<tr><td> Nukes at Start: <td>' + q.nukes + '<tr><td>Blockade Days:<td>' + blockadeDays + '<tr><td>Blockade Start UTC:<td>' + startDate.format() + '<tr><td>Blockade End UTC:<td>' + endDate.format() + '<tr><td>Blockade End Local:<td>' + endDateLocal + '</table>');
+	res.write('New target added! <br><br> <table cellpadding="4" border="1" style="border-collapse: collapse; border: 1px solid black"><tr><td>Target:<td>' + q.target +'<tr><td> Nukes at Start: <td>' + q.nukes + '<tr><td>Blockade Days:<td>' + blockadeDays + '<tr><td>Blockade Start UTC:<td>' + startDate.format() + '<tr><td>Blockade End UTC:<td>' + endDate.format() + '<tr><td>Blockade End Local:<td>' + endDate.toDate() + '</table>');
 
 // URL to test ID concatenation, could be removed now 
 
