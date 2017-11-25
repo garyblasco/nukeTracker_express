@@ -52,10 +52,9 @@ app.get('/addtarget', (req, res) => {
 
 	res.writeHead(200, {'Content-type': 'text/html'});
 	var txt = q.target + ' ' + q.date + ' ' + q.nukes; 
-	res.write('New target added! <br><br> <table cellpadding="4" border="1" style="border-collapse: collapse; border: 1px solid black"><tr><td>Target:<td>' + q.target +'<tr><td> Nukes at Start: <td>' + q.nukes + '<tr><td>Blockade Days:<td>' + blockadeDays + '<tr><td>Blockade Start UTC:<td>' + startDate.format() + '<tr><td>Blockade End UTC:<td>' + endDate.format() + '<tr><td>Blockade End Local:<td>' + endDate.toDate() + '</table>');
-	
-	
-// test URL, could be removed
+	res.write('New target added! <br><br> <table cellpadding="4" border="1" style="border-collapse: collapse; border: 1px solid black"><tr><td>Target:<td>' + q.target +'<tr><td> Nukes at Start: <td>' + q.nukes + '<tr><td>Blockade Days:<td>' + blockadeDays + '<tr><td>Blockade Start UTC:<td>' + startDate.format() + '<tr><td>Blockade End UTC:<td>' + endDate.format() + '<tr><td>Blockade End Local:<td>' + endDate.utc().toDate() + '</table>');
+
+// URL to test ID concatenation, could be removed now 
 
 	res.end('<br><br><a href="http://test.com/?target=' + q.target + '&date=' + q.date + '&nukes=' + q.nukes + '">test url</a>');
 })
