@@ -3,14 +3,33 @@ var url = require('url');
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 8080
+const Promise = require('promise');
 var MongoClient = require('mongodb').MongoClient;
 var dbURL = 'mongodb://chapterthree:ChapterThree123$@ds119486.mlab.com:19486/chapterthree';
 const moment = require('moment');
 
+	function open() {
+		return new Promise(function (fulfill, reject){
+			MongoClient.connect(dbURL, getTargets)})};
+	
+	function getTargets(err, db) {
+	  if (err) throw err;
+	  db.collection("targets").find({}).toArray(saveTargets)};
+	  
+	function saveTargets(err, result) {
+	  	if (err) throw err;
+	  	console.log(result)
+	  	upcomingTargets = result};
+	  
+/*	function printStuff (stuff) {
+		console.log('is this working?');
+		console.log(stuff[1].target)
+*/
+
 app.get('/', (req, res) => {
 	res.writeHead(200, {'Content-type': 'text/html'});
 	res.end('coming soon: chapter 3');
-})
+}) // '/'
 
 app.get('/addtarget', (req, res) => {
 
@@ -28,7 +47,7 @@ app.get('/addtarget', (req, res) => {
 // convert time input to UTC moment
 	
 	var startDate = moment.utc(q.date); // 	
-	console.log(startDate);	
+	console.log(startDate);
 	
 // define blockade end time UTC based on time input + blockade length
 
@@ -44,7 +63,7 @@ app.get('/addtarget', (req, res) => {
 
 	MongoClient.connect(dbURL, function(err, db) {
 	  if (err) throw err;
-	  var newTarget = { target: q.target, nukes: q.nukes, blockadeStart: startDate.format(), blockadeEnd:  endDate.format()};
+	  var newTarget = { target: q.target, nukes: q.nukes, blockadeStart: startDate.format(x), blockadeEnd:  endDate.format(x)};
 	  db.collection("targets").insertOne(newTarget, function(err, res) {
 		if (err) throw err;
 		console.log("1 document inserted");
@@ -64,13 +83,29 @@ app.get('/addtarget', (req, res) => {
 })
 
 app.get('/upcomingtargets', (req, res) => {
-	res.writeHead(200, {'Content-type': 'text/html'});
-	res.end('show the next 10 targets');
-})
+
+
+/* original find
+
+	MongoClient.connect(dbURL, function(err, db) {
+	  if (err) throw err;
+	  db.collection("targets").find({}).toArray(function(err, result) {
+	  	if (err) throw err;
+	  	console.log(result);
+	  	});
+		db.close();
+	});
+*/
+		var lastTry = open();
+		res.writeHead(200, {'Content-type': 'text/html'});
+		res.end('show the next 10 targets <br>' + lastTry[0]);
+		
+});
+
 
 app.get('/upcomingtime', (req, res) => {
 	res.writeHead(200, {'Content-type': 'text/html'});
 	res.end('show all targets in next week');
-})
+});
 
 app.listen(PORT, () => ('working!'))
