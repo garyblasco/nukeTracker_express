@@ -64,7 +64,7 @@ app.get('/addtarget', (req, res) => {
 		
 	res.writeHead(200, {'Content-type': 'text/html'});
 	var txt = q.target + ' ' + q.date + ' ' + q.nukes; 
-	res.write('<head><title><p>New Target Added!></title><style type="text/css"> td, p {font-family: Arial; font-size: 12px};</style></head><body>New target added! <br><br> <table cellpadding="4" border="1" style="border-collapse: collapse; border: 1px solid black"><tr><td>Target:<td>' + q.target +'<tr><td> Nukes at Start: <td>' + q.nukes + '<tr><td>Blockade Days:<td>' + blockadeDays + '<tr><td>Blockade Start UTC:<td>' + startDate.format() + '<tr><td>Blockade End UTC:<td>' + endDate.format() + '</table>');
+	res.write('<head><title><p>New Target Added!></title><style type="text/css"> td, p {font-family: Arial; font-size: 12px};</style></head><body><p>New target added!</p><table cellpadding="4" border="1" style="border-collapse: collapse; border: 1px solid black"><tr><td>Target:<td>' + q.target +'<tr><td> Nukes at Start: <td>' + q.nukes + '<tr><td>Blockade Days:<td>' + blockadeDays + '<tr><td>Blockade Start UTC:<td>' + startDate.format() + '<tr><td>Blockade End UTC:<td>' + endDate.format() + '</table>');
 	res.end('<br><br><a href="http://www.garyblasco.com/nukes/html/">Back to Add</a>');
 
 });
