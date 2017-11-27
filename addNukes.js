@@ -18,10 +18,11 @@ MongoClient.connect(dbURL, (err, database) => {
 
 app.set('view engine', 'ejs');
 
+// ROOT
 app.get('/', (req, res) => {
 	res.writeHead(200, {'Content-type': 'text/html'});
 	res.end('coming soon: chapter 3');
-}) // '/'
+})
 
 // ADD TARGET
 app.get('/addtarget', (req, res) => {
@@ -54,26 +55,30 @@ app.get('/addtarget', (req, res) => {
 
 // write target name, nukes, start time, end time to DB
 
-	MongoClient.connect(dbURL, function(err, db) {
-	  if (err) throw err;
-	  var newTarget = { target: q.target, nukes: q.nukes, blockadeStart: startDate.format(x), blockadeEnd:  endDate.format(x)};
+	  var newTarget = { target: q.target, nukes: q.nukes, blockadeStart: startDate.format(), blockadeEnd:  endDate.format()};
+
 	  db.collection("targets").insertOne(newTarget, function(err, res) {
 		if (err) throw err;
 		console.log("1 document inserted");
-		db.close();
-	  });
-	});
-	
-// html response to confirm added target detail
-
+		});
+		
 	res.writeHead(200, {'Content-type': 'text/html'});
 	var txt = q.target + ' ' + q.date + ' ' + q.nukes; 
 	res.write('New target added! <br><br> <table cellpadding="4" border="1" style="border-collapse: collapse; border: 1px solid black"><tr><td>Target:<td>' + q.target +'<tr><td> Nukes at Start: <td>' + q.nukes + '<tr><td>Blockade Days:<td>' + blockadeDays + '<tr><td>Blockade Start UTC:<td>' + startDate.format() + '<tr><td>Blockade End UTC:<td>' + endDate.format() + '<tr><td>Blockade End Local:<td>' + endDate.toDate() + '</table>');
+	res.end('<br><br><a href="http://test.com/?target=' + q.target + '&date=' + q.date + '&nukes=' + q.nukes + '">test url</a>');
+
+});
+
+
+
+	
+// html response to confirm added target detail
+
+
 
 // URL to test ID concatenation, could be removed now 
 
-	res.end('<br><br><a href="http://test.com/?target=' + q.target + '&date=' + q.date + '&nukes=' + q.nukes + '">test url</a>');
-})
+
 
 app.get('/upcomingtargets', (req, res) => {
 
@@ -89,4 +94,4 @@ app.get('/upcomingtime', (req, res) => {
 	res.end('show all targets in next week');
 });
 
-app.listen(PORT, () => ('working!'))
+app.listen(PORT, () => ('working!'));
