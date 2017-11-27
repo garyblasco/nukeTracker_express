@@ -1,22 +1,27 @@
 //var http = require('http');
-const url = require('url');
+var url = require('url');
 const express = require('express');
+const app = express();
 const PORT = process.env.PORT || 8080
 const Promise = require('promise');
-const app = express();
-
 var MongoClient = require('mongodb').MongoClient;
 var dbURL = 'mongodb://chapterthree:ChapterThree123$@ds119486.mlab.com:19486/chapterthree';
 const moment = require('moment');
-var db
-	
-MongoClient.connect(dbURL, (err, database) => {
-	if (err) return console.log('Error!');
-	db = database;
-	return console.log('Connected!')
-});
+var finalResult;
 
-app.set('view engine', 'ejs');
+	function getTargets(err, db) {
+	  if (err) throw err;
+	  db.collection("targets").find({}).toArray(saveTargets)};
+	  
+	function saveTargets(err, result) {
+	  	if (err) throw err;
+	  	console.log(result);
+	  	finalResult = result};
+	  
+/*	function printStuff (stuff) {
+		console.log('is this working?');
+		console.log(stuff[1].target)
+*/
 
 app.get('/', (req, res) => {
 	res.writeHead(200, {'Content-type': 'text/html'});
@@ -77,12 +82,32 @@ app.get('/addtarget', (req, res) => {
 
 app.get('/upcomingtargets', (req, res) => {
 
-	db.collection('targets').find().limit(3).sort({blockadeEnd: 1}).toArray((err, result) => {
-	if (err) return console.log(err);
-	console.log(result);
-	res.render('index.ejs', {targets: result})
+
+/* original find
+
+	MongoClient.connect(dbURL, function(err, db) {
+	  if (err) throw err;
+	  db.collection("targets").find({}).toArray(function(err, result) {
+	  	if (err) throw err;
+	  	console.log(result);
+	  	});
+		db.close();
 	});
+*/
+
+//		MongoClient.connect(dbURL, getTargets);
+//		MongoClient.connect(dbURL, getTargets);
+		res.writeHead(200, {'Content-type': 'text/html'});
+//		res.end(finalResult[0].name); // just to verify
+		res.end(function(err, write){
+			if (err) throw err;
+			var pleaseWork = MongoClient.connect(dbURL, getTargets);
+			console.log('yayyy');
+			pleaseWork});
+			
+		
 });
+
 
 app.get('/upcomingtime', (req, res) => {
 	res.writeHead(200, {'Content-type': 'text/html'});

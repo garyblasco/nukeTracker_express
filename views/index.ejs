@@ -1,0 +1,18 @@
+<head>
+<title>Upcoming Targets</title>
+<style type="text/css">
+	ul, p	{
+			font-family:	Arial;
+			font-size:		14px;
+			};
+</style>
+</head>
+<body>
+	<p>Next Three Upcoming Targets:</p>
+<ul class="targets">
+	 <% for(var i=0; i<targets.length; i++) {%>
+      <span>Target: <%= targets[i].target %> // Blockade Ends: <%= targets[i].blockadeEnd %> UTC</span>
+      <br>
+  <% } %>
+</ul>
+</body>
